@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/gestionetavolo")
-public class GestioneTavoloController {
+@RequestMapping("/tavolo")
+public class TavoloController {
 
     @Autowired
     private TavoloService tavoloService;
