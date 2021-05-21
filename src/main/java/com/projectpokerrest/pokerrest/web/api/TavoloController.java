@@ -2,6 +2,7 @@ package com.projectpokerrest.pokerrest.web.api;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
+import com.projectpokerrest.pokerrest.web.api.exception.UnouthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,17 @@ public class TavoloController {
     private TavoloService tavoloService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Tavolo>> getAll () {
-        List<Tavolo> tavoli = tavoloService.listAllTavolo();
+    public ResponseEntity<List<Tavolo>> getAll (@RequestHeader("authorization") String user) {
+        if(!user.equals("admin") && !user.equals("special")){
+            throw new UnouthorizedException("Non autorizzato");
+        }
+        List<Tavolo> tavoli = tavoloService.listAllEager();
         return new ResponseEntity<>(tavoli, HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Tavolo> get (@PathVariable("id") Long id) {
-        Tavolo tavolo = tavoloService.caricaSingoloTavolo(id);
+        Tavolo tavolo = tavoloService.caricaSingoloTavoloConUtenti(id);
         return new ResponseEntity<>(tavolo, HttpStatus.OK);
     }
 
