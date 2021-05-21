@@ -19,7 +19,7 @@ public interface TavoloService {
 
     Tavolo inserisciNuovo(Tavolo tavoloInstance);
 
-    void rimuovi(Tavolo tavoloInstance);
+    void rimuovi(Tavolo tavoloInstance) throws Exception;
 
     List<Tavolo> findByExample(Tavolo tavoloInstance);
 

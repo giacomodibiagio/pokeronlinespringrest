@@ -27,31 +27,47 @@ public class TavoloController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Tavolo> get (@PathVariable("id") Long id) {
+    public ResponseEntity<Tavolo> get (@PathVariable("id") Long id, @RequestHeader("authorization") String user) {
+        if(!user.equals("admin") && !user.equals("special")){
+            throw new UnouthorizedException("Non autorizzato");
+        }
         Tavolo tavolo = tavoloService.caricaSingoloTavoloConUtenti(id);
         return new ResponseEntity<>(tavolo, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Tavolo> add (@RequestBody Tavolo tavolo) {
+    public ResponseEntity<Tavolo> add (@RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
+        if(!user.equals("admin") && !user.equals("special")){
+            throw new UnouthorizedException("Non autorizzato");
+        }
         Tavolo tavoloInstance = tavoloService.inserisciNuovo(tavolo);
+        tavoloInstance = tavoloService.caricaSingoloTavoloConUtenti(19L);
         return new ResponseEntity<>(tavoloInstance, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Tavolo> update(@RequestBody Tavolo tavolo) {
+    public ResponseEntity<Tavolo> update(@RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
+        if(!user.equals("admin") && !user.equals("special")){
+            throw new UnouthorizedException("Non autorizzato");
+        }
         Tavolo tavoloInstance = tavoloService.aggiorna(tavolo);
         return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id, @RequestHeader("authorization") String user) throws Exception {
+        if(!user.equals("admin") && !user.equals("special")){
+            throw new UnouthorizedException("Non autorizzato");
+        }
         tavoloService.rimuovi(tavoloService.caricaSingoloTavolo(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<Tavolo>> search(@RequestBody Tavolo example) {
+    public ResponseEntity<List<Tavolo>> search(@RequestBody Tavolo example, @RequestHeader("authorization") String user) {
+        if(!user.equals("admin") && !user.equals("special")){
+            throw new UnouthorizedException("Non autorizzato");
+        }
         List<Tavolo> tavoloInstance = tavoloService.findByExample(example);
         return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);
     }

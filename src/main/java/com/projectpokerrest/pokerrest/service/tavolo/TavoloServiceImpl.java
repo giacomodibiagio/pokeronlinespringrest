@@ -46,7 +46,10 @@ public class TavoloServiceImpl implements TavoloService {
     }
 
     @Override
-    public void rimuovi(Tavolo tavoloInstance) {
+    public void rimuovi(Tavolo tavoloInstance) throws Exception {
+        if(!repository.findOneEager(tavoloInstance.getId()).getUtenti().isEmpty() && repository.findOneEager(tavoloInstance.getId()).getUtenteCreazione() != null){
+            throw new Exception("Tavolo non eliminabile");
+        }
         repository.delete(tavoloInstance);
     }
 
