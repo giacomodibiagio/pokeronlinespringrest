@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,17 +37,17 @@ public class TavoloController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Tavolo> add (@RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
+    public ResponseEntity<Tavolo> add (@Valid @RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
         if(!user.equals("admin") && !user.equals("special")){
             throw new UnouthorizedException("Non autorizzato");
         }
         Tavolo tavoloInstance = tavoloService.inserisciNuovo(tavolo);
-        tavoloInstance = tavoloService.caricaSingoloTavoloConUtenti(19L);
+
         return new ResponseEntity<>(tavoloInstance, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Tavolo> update(@RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
+    public ResponseEntity<Tavolo> update(@Valid @RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
         if(!user.equals("admin") && !user.equals("special")){
             throw new UnouthorizedException("Non autorizzato");
         }
