@@ -44,7 +44,7 @@ public class Tavolo {
 
     @NotNull(message = "{utenteCreazione.notnull}")
     @JsonIgnoreProperties(value= {"tavolo"})
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "utente_id")
     private Utente utenteCreazione;
 

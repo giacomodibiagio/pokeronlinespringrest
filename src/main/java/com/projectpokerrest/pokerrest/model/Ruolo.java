@@ -8,7 +8,7 @@ public class Ruolo {
 
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 	public static final String ROLE_PLAYER = "ROLE_PLAYER";
-	public static final String ROLE_SPECIAL_PLAYER = "ROLE_PLAYER";
+	public static final String ROLE_SPECIAL_PLAYER = "ROLE_SPECIAL_PLAYER";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
