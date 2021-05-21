@@ -21,6 +21,11 @@ public class TavoloServiceImpl implements TavoloService {
     }
 
     @Override
+    public List<Tavolo> listAllEager() {
+        return repository.findAllEager();
+    }
+
+    @Override
     public Tavolo caricaSingoloTavolo(Long id) {
         return repository.findById(id).orElse(null);
     }

@@ -82,8 +82,14 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public Utente caricaUtenteConRuoli(Long id) {
-		return repository.findOneEagerRuoli(id).orElse(null);
+	public Utente caricaUtenteEager(Long id) {
+		return repository.findOneEager(id).orElse(null);
 	}
+
+	@Override
+	public List<Utente> listAllEager() {
+		return repository.findAllEager();
+	}
+
 
 }

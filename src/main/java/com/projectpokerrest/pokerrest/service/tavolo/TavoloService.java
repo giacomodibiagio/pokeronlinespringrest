@@ -9,6 +9,8 @@ public interface TavoloService {
 
     List<Tavolo> listAllTavolo() ;
 
+    List<Tavolo> listAllEager();
+
     Tavolo caricaSingoloTavolo(Long id);
 
     Tavolo caricaSingoloTavoloConUtenti(Long id);
