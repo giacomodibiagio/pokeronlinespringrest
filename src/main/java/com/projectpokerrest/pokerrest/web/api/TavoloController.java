@@ -1,7 +1,9 @@
 package com.projectpokerrest.pokerrest.web.api;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
+import com.projectpokerrest.pokerrest.model.Utente;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
+import com.projectpokerrest.pokerrest.service.utente.UtenteService;
 import com.projectpokerrest.pokerrest.web.api.exception.UnouthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,9 @@ public class TavoloController {
 
     @Autowired
     private TavoloService tavoloService;
+
+    @Autowired
+    private UtenteService utenteService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Tavolo>> getAll (@RequestHeader("authorization") String user) {
@@ -41,6 +46,8 @@ public class TavoloController {
         if(!user.equals("admin") && !user.equals("special")){
             throw new UnouthorizedException("Non autorizzato");
         }
+        Utente utenteCreazioneDaAssegnare = utenteService.caricaUtenteEager(tavolo.getUtenteCreazione().getId());
+        tavolo.setUtenteCreazione(utenteCreazioneDaAssegnare);
         Tavolo tavoloInstance = tavoloService.inserisciNuovo(tavolo);
 
         return new ResponseEntity<>(tavoloInstance, HttpStatus.CREATED);
