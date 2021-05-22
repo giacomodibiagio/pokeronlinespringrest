@@ -27,13 +27,14 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public void aggiorna(Utente utenteInstance) {
+	public Utente aggiorna(Utente utenteInstance) {
 		repository.save(utenteInstance);
+		return utenteInstance;
 	}
 
 	@Override
-	public void inserisciNuovo(Utente utenteInstance) {
-		repository.save(utenteInstance);
+	public Utente inserisciNuovo(Utente utenteInstance) {
+		return repository.save(utenteInstance);
 	}
 
 	@Override
@@ -89,6 +90,13 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public List<Utente> listAllEager() {
 		return repository.findAllEager();
+	}
+
+	@Override
+	public Utente disabilitaUtente(Long id){
+		Utente utente = caricaSingoloUtente(id);
+		repository.disabilitaUtente(utente);
+		return utente;
 	}
 
 

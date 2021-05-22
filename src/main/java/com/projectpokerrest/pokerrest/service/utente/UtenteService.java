@@ -14,9 +14,9 @@ public interface UtenteService {
 	
 	public Utente caricaUtenteEager(Long id);
 
-	public void aggiorna(Utente utenteInstance);
+	public Utente aggiorna(Utente utenteInstance);
 
-	public void inserisciNuovo(Utente utenteInstance);
+	public Utente inserisciNuovo(Utente utenteInstance);
 
 	public void rimuovi(Utente utenteInstance);
 
@@ -31,5 +31,6 @@ public interface UtenteService {
 	public Utente findByUsername(String username);
 
 	public void sottraiCredito(Utente utente, Double costoAnnuncio);
-	
+
+	public Utente disabilitaUtente(Long id);
 }

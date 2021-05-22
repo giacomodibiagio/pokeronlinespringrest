@@ -1,7 +1,10 @@
 package com.projectpokerrest.pokerrest.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "ruolo")
 public class Ruolo {

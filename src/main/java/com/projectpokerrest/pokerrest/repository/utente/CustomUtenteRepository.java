@@ -7,5 +7,7 @@ import java.util.List;
 public interface CustomUtenteRepository {
 
 	List<Utente> findByExample(Utente example);
+
+	public Utente disabilitaUtente(Utente utente);
 	
 }

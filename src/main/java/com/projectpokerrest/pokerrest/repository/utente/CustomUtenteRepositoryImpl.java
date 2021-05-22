@@ -1,5 +1,6 @@
 package com.projectpokerrest.pokerrest.repository.utente;
 
+import com.projectpokerrest.pokerrest.model.StatoUtente;
 import com.projectpokerrest.pokerrest.model.Utente;
 import org.apache.commons.lang3.StringUtils;
 
@@ -75,5 +76,11 @@ public class CustomUtenteRepositoryImpl implements CustomUtenteRepository {
 
 		return typedQuery.getResultList();
     }
+
+	@Override
+	public Utente disabilitaUtente(Utente utente) {
+		utente.setStato(StatoUtente.DISABILITATO);
+		return utente;
+	}
 
 }
