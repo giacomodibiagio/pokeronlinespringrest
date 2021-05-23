@@ -34,6 +34,10 @@ public class TavoloController {
         if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
         }
+        if(utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
+            List<Tavolo> tavoli = tavoloService.findByUtenteCreazione();
+            return new ResponseEntity<>(tavoli, HttpStatus.OK);
+        }
         List<Tavolo> tavoli = tavoloService.listAllEager();
         return new ResponseEntity<>(tavoli, HttpStatus.OK);
     }
@@ -90,6 +94,9 @@ public class TavoloController {
         if(tavoloDaCancellare == null){
             throw new TavoloNotFoundException("Tavolo non trovato");
         }
+        if(!tavoloDaCancellare.getUtenti().isEmpty()){
+            throw new RuntimeException("Tavolo non eliminabile. Ci sono ancora utenti assegnati");
+        }
         tavoloService.rimuovi(tavoloService.caricaSingoloTavolo(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -99,6 +106,11 @@ public class TavoloController {
         Utente utenteInSessione = utenteService.findByUsername(user);
         if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
+        }
+        if(utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
+            example.setUtenteCreazione(utenteService.findByUsername(user));
+            List<Tavolo> tavoloInstance = tavoloService.findByExample(example);
+            return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);
         }
         List<Tavolo> tavoloInstance = tavoloService.findByExample(example);
         return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);
