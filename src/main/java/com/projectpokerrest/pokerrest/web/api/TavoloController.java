@@ -72,6 +72,7 @@ public class TavoloController {
         if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
         }
+
         Tavolo tavoloDaModificare = tavoloService.caricaSingoloTavolo(id);
         if(tavoloDaModificare == null){
             throw new TavoloNotFoundException("Tavolo non trovato");
