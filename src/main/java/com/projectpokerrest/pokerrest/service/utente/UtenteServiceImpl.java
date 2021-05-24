@@ -1,8 +1,10 @@
 package com.projectpokerrest.pokerrest.service.utente;
 
 import com.projectpokerrest.pokerrest.model.StatoUtente;
+import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
 import com.projectpokerrest.pokerrest.repository.utente.UtenteRepository;
+import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,6 +100,12 @@ public class UtenteServiceImpl implements UtenteService {
 		repository.disabilitaUtente(utente);
 		return utente;
 	}
-
-
+	@Override
+	public Tavolo trovaTavoloGiocatore( Utente utenteInSessione) {
+		Tavolo tavolo = null;
+		if ((tavolo = utenteInSessione.getTavolo()) == null) {
+			throw  new TavoloNotFoundException("l utente non è su nessun tavolo");
+		}
+		return  tavolo;
+	}
 }

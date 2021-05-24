@@ -1,5 +1,6 @@
 package com.projectpokerrest.pokerrest.service.utente;
 
+import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface UtenteService {
 	public void sottraiCredito(Utente utente, Double costoAnnuncio);
 
 	public Utente disabilitaUtente(Long id);
+
+	Tavolo trovaTavoloGiocatore(Utente utenteInSessione);
 }

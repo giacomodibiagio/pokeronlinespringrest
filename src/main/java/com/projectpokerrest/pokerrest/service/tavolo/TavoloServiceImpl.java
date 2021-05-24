@@ -3,6 +3,7 @@ package com.projectpokerrest.pokerrest.service.tavolo;
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
 import com.projectpokerrest.pokerrest.repository.tavolo.TavoloRepository;
+import com.projectpokerrest.pokerrest.repository.utente.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,10 @@ public class TavoloServiceImpl implements TavoloService {
 
     @Autowired
     private TavoloRepository repository;
+
+
+    @Autowired
+    private UtenteRepository utenteRepository;
 
     @Override
     public List<Tavolo> listAllTavolo() {
@@ -72,4 +77,6 @@ public class TavoloServiceImpl implements TavoloService {
         }
         return null;
     }
+
+
 }

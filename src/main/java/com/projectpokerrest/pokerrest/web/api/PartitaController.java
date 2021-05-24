@@ -1,5 +1,6 @@
 package com.projectpokerrest.pokerrest.web.api;
 
+import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
 import com.projectpokerrest.pokerrest.service.ruolo.RuoloService;
 import com.projectpokerrest.pokerrest.service.utente.UtenteService;
@@ -24,5 +25,11 @@ public class PartitaController {
         utenteInSessione.setCreditoResiduo(utenteInSessione.getCreditoResiduo() + credito);
         utenteService.aggiorna(utenteInSessione);
         return new ResponseEntity<>(utenteInSessione, HttpStatus.OK);
+    }
+
+    @GetMapping("/lastgame")
+    public ResponseEntity<Tavolo> buy ( @RequestHeader("authorization") String user) {
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        return new ResponseEntity<>(utenteService.trovaTavoloGiocatore(utenteInSessione), HttpStatus.OK);
     }
 }
