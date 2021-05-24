@@ -39,7 +39,7 @@ public class TavoloController {
             List<Tavolo> tavoli = tavoloService.findByUtenteCreazione(utenteService.findByUsername(user));
             return new ResponseEntity<>(tavoli, HttpStatus.OK);
         }
-
+        List<Tavolo> tavoli = tavoloService.findByUtenteCreazione(utenteService.findByUsername(user));
         return new ResponseEntity<>(tavoli, HttpStatus.OK);
     }
 
