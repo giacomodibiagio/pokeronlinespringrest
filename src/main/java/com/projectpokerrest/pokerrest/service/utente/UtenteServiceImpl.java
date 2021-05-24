@@ -27,8 +27,9 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public void aggiorna(Utente utenteInstance) {
+	public Utente aggiorna(Utente utenteInstance) {
 		repository.save(utenteInstance);
+		return utenteInstance;
 	}
 
 	@Override
@@ -89,6 +90,13 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public List<Utente> listAllEager() {
 		return repository.findAllEager();
+	}
+
+	@Override
+	public Utente disabilitaUtente(Long id){
+		Utente utente = caricaSingoloUtente(id);
+		repository.disabilitaUtente(utente);
+		return utente;
 	}
 
 
