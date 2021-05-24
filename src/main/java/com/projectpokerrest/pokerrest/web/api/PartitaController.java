@@ -19,7 +19,7 @@ public class PartitaController {
     private UtenteService utenteService;
 
     @PutMapping("/buy")
-    public ResponseEntity< Utente> buy (@RequestBody Long credito,@RequestHeader("user") String user) {
+    public ResponseEntity< Utente> buy (@RequestBody Double credito,@RequestHeader("authorization") String user) {
         Utente utenteInSessione = utenteService.findByUsername(user);
         utenteInSessione.setCreditoResiduo(utenteInSessione.getCreditoResiduo() + credito);
         utenteService.aggiorna(utenteInSessione);
