@@ -23,6 +23,8 @@ public interface TavoloService {
 
     List<Tavolo> findByExample(Tavolo tavoloInstance);
 
-    List<Tavolo> findByUtenteCreazione();
+    List<Tavolo> findByUtenteCreazione(Utente utente);
+
+    Tavolo controllaTavoloPerUsernameUtenteCreazione(Long id, String username);
 
 }

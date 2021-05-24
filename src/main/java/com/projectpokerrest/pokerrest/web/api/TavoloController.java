@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,10 +36,10 @@ public class TavoloController {
             throw new UnouthorizedException("Non autorizzato");
         }
         if(utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
-            List<Tavolo> tavoli = tavoloService.findByUtenteCreazione();
+            List<Tavolo> tavoli = tavoloService.findByUtenteCreazione(utenteService.findByUsername(user));
             return new ResponseEntity<>(tavoli, HttpStatus.OK);
         }
-        List<Tavolo> tavoli = tavoloService.listAllEager();
+
         return new ResponseEntity<>(tavoli, HttpStatus.OK);
     }
 
@@ -48,13 +49,13 @@ public class TavoloController {
         if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
         }
-        Tavolo tavoloDaCercare = tavoloService.caricaSingoloTavolo(id);
-        if(tavoloDaCercare == null){
+        Tavolo tavoloDaCercare = null;
+
+
+        if((tavoloDaCercare = tavoloService.controllaTavoloPerUsernameUtenteCreazione(id, user)) == null){
             throw new TavoloNotFoundException("Tavolo non trovato");
         }
-
-        Tavolo tavolo = tavoloService.caricaSingoloTavoloConUtenti(id);
-        return new ResponseEntity<>(tavolo, HttpStatus.OK);
+         return new ResponseEntity<>(tavoloDaCercare, HttpStatus.OK);
     }
 
     @PostMapping("/add")

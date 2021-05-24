@@ -1,6 +1,7 @@
 package com.projectpokerrest.pokerrest.service.tavolo;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
+import com.projectpokerrest.pokerrest.model.Utente;
 import com.projectpokerrest.pokerrest.repository.tavolo.TavoloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +60,16 @@ public class TavoloServiceImpl implements TavoloService {
     }
 
     @Override
-    public List<Tavolo> findByUtenteCreazione() {
-        return repository.findByUtenteCreazione();
+    public List<Tavolo> findByUtenteCreazione(Utente utente) {
+        return repository.findByUtenteCreazione(utente);
     }
 
+    @Override
+    public Tavolo controllaTavoloPerUsernameUtenteCreazione(Long id, String username) {
+        Tavolo tavolo = repository.findOneEager(id);
+        if(tavolo.getUtenteCreazione().getUsername().equals(username)){
+            return tavolo;
+        }
+        return null;
+    }
 }
