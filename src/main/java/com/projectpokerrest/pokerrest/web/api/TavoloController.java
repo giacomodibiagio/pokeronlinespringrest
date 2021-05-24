@@ -2,8 +2,10 @@ package com.projectpokerrest.pokerrest.web.api;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
+import com.projectpokerrest.pokerrest.service.ruolo.RuoloService;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
 import com.projectpokerrest.pokerrest.service.utente.UtenteService;
+import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
 import com.projectpokerrest.pokerrest.web.api.exception.UnouthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +25,18 @@ public class TavoloController {
     @Autowired
     private UtenteService utenteService;
 
+    @Autowired
+    private RuoloService ruoloService;
+
     @GetMapping("/all")
     public ResponseEntity<List<Tavolo>> getAll (@RequestHeader("authorization") String user) {
-        if(!user.equals("admin") && !user.equals("special")){
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
+        }
+        if(utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
+            List<Tavolo> tavoli = tavoloService.findByUtenteCreazione();
+            return new ResponseEntity<>(tavoli, HttpStatus.OK);
         }
         List<Tavolo> tavoli = tavoloService.listAllEager();
         return new ResponseEntity<>(tavoli, HttpStatus.OK);
@@ -34,16 +44,23 @@ public class TavoloController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Tavolo> get (@PathVariable("id") Long id, @RequestHeader("authorization") String user) {
-        if(!user.equals("admin") && !user.equals("special")){
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
         }
+        Tavolo tavoloDaCercare = tavoloService.caricaSingoloTavolo(id);
+        if(tavoloDaCercare == null){
+            throw new TavoloNotFoundException("Tavolo non trovato");
+        }
+
         Tavolo tavolo = tavoloService.caricaSingoloTavoloConUtenti(id);
         return new ResponseEntity<>(tavolo, HttpStatus.OK);
     }
 
     @PostMapping("/add")
     public ResponseEntity<Tavolo> add (@Valid @RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
-        if(!user.equals("admin") && !user.equals("special")){
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
         }
         Utente utenteCreazioneDaAssegnare = utenteService.caricaUtenteEager(tavolo.getUtenteCreazione().getId());
@@ -53,10 +70,15 @@ public class TavoloController {
         return new ResponseEntity<>(tavoloInstance, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Tavolo> update(@Valid @RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
-        if(!user.equals("admin") && !user.equals("special")){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Tavolo> update(@Valid @RequestBody Tavolo tavolo, @RequestHeader("authorization") String user, @PathVariable("id") Long id) {
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
+        }
+        Tavolo tavoloDaModificare = tavoloService.caricaSingoloTavolo(id);
+        if(tavoloDaModificare == null){
+            throw new TavoloNotFoundException("Tavolo non trovato");
         }
         Tavolo tavoloInstance = tavoloService.aggiorna(tavolo);
         return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);
@@ -64,8 +86,16 @@ public class TavoloController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id, @RequestHeader("authorization") String user) throws Exception {
-        if(!user.equals("admin") && !user.equals("special")){
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
+        }
+        Tavolo tavoloDaCancellare = tavoloService.caricaSingoloTavolo(id);
+        if(tavoloDaCancellare == null){
+            throw new TavoloNotFoundException("Tavolo non trovato");
+        }
+        if(!tavoloDaCancellare.getUtenti().isEmpty()){
+            throw new RuntimeException("Tavolo non eliminabile. Ci sono ancora utenti assegnati");
         }
         tavoloService.rimuovi(tavoloService.caricaSingoloTavolo(id));
         return new ResponseEntity<>(HttpStatus.OK);
@@ -73,8 +103,14 @@ public class TavoloController {
 
     @PostMapping("/search")
     public ResponseEntity<List<Tavolo>> search(@RequestBody Tavolo example, @RequestHeader("authorization") String user) {
-        if(!user.equals("admin") && !user.equals("special")){
+        Utente utenteInSessione = utenteService.findByUsername(user);
+        if(!utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_ADMIN", "ROLE_ADMIN")) && !utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
             throw new UnouthorizedException("Non autorizzato");
+        }
+        if(utenteInSessione.getRuoli().contains(ruoloService.cercaPerDescrizioneECodice("ROLE_SPECIAL_PLAYER", "ROLE_SPECIAL_PLAYER"))){
+            example.setUtenteCreazione(utenteService.findByUsername(user));
+            List<Tavolo> tavoloInstance = tavoloService.findByExample(example);
+            return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);
         }
         List<Tavolo> tavoloInstance = tavoloService.findByExample(example);
         return new ResponseEntity<>(tavoloInstance, HttpStatus.OK);

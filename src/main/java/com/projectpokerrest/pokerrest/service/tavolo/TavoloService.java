@@ -23,4 +23,6 @@ public interface TavoloService {
 
     List<Tavolo> findByExample(Tavolo tavoloInstance);
 
+    List<Tavolo> findByUtenteCreazione();
+
 }
