@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+ @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "tavolo")
 public class Tavolo {

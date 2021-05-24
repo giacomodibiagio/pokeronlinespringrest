@@ -36,7 +36,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(value = {TavoloNotFoundException.class,  UtenteNotFoundException.class})
-	protected ResponseEntity<Object> handleConflict(
+	protected ResponseEntity<Object> notFoundConflict(
 			RuntimeException ex, WebRequest request) {
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", new Date());
@@ -47,6 +47,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, body,
 				new HttpHeaders(), HttpStatus.NOT_FOUND , request);
+	}
+	@ExceptionHandler(value = {BusinessException.class })
+	protected ResponseEntity<Object> businessConflict(
+			RuntimeException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", new Date());
+		body.put("message",ex.getMessage());
+		body.put("status", HttpStatus.BAD_REQUEST.value());
+
+		String bodyOfResponse = ex.getMessage();
+
+		return handleExceptionInternal(ex, body,
+				new HttpHeaders(), HttpStatus.BAD_REQUEST , request);
 	}
 }
 

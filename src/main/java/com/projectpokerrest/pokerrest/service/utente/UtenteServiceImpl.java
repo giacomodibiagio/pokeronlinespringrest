@@ -3,13 +3,17 @@ package com.projectpokerrest.pokerrest.service.utente;
 import com.projectpokerrest.pokerrest.model.StatoUtente;
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
+import com.projectpokerrest.pokerrest.repository.tavolo.TavoloRepository;
 import com.projectpokerrest.pokerrest.repository.utente.UtenteRepository;
 import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -17,6 +21,8 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private UtenteRepository repository;
+	@Autowired
+	private TavoloRepository tavoloRepository;
 
 	@Override
 	public List<Utente> listAllUtenti() {
@@ -107,5 +113,12 @@ public class UtenteServiceImpl implements UtenteService {
 			throw  new TavoloNotFoundException("l utente non è su nessun tavolo");
 		}
 		return  tavolo;
+	}
+
+	@Override
+	public List<Tavolo> cercaTavoliPerEsperienza(Utente utenteInSessione) {
+
+		List<Tavolo> tavoli = tavoloRepository.findByEsperienzaMinLessThan(utenteInSessione.getEsperienzaAccumulata());
+		return tavoli;
 	}
 }

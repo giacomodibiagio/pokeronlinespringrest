@@ -36,4 +36,6 @@ public interface UtenteService {
 	public Utente disabilitaUtente(Long id);
 
 	Tavolo trovaTavoloGiocatore(Utente utenteInSessione);
+
+		List<Tavolo> cercaTavoliPerEsperienza(Utente utenteInSessione);
 }

@@ -17,4 +17,5 @@ public interface TavoloRepository extends CrudRepository<Tavolo, Long>, CustomTa
 
     List<Tavolo> findByUtenteCreazione(Utente utente);
 
+        List<Tavolo> findByEsperienzaMinLessThan(Double esperienzaAccumulata);
 }
