@@ -4,7 +4,7 @@ import com.projectpokerrest.pokerrest.model.User;
 
 import java.util.List;
 
-public interface   CustomUserRepository {
+public interface CustomUserRepository {
 
      List<User> findByExample(User example);
 

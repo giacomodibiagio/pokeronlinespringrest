@@ -24,7 +24,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         List<String> whereClauses = new ArrayList<String>();
 
         StringBuilder queryBuilder = new StringBuilder(
-                "select DISTINCT u from Utente u left join fetch u.ruoli r where u.id = u.id ");
+                "select DISTINCT u from User u left join fetch u.authorities r where u.id = u.id ");
 
         if (StringUtils.isNotEmpty(example.getNome())) {
             whereClauses.add(" u.nome  like :nome ");
@@ -60,8 +60,8 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             paramaterMap.put("stato", example.getStato());
         }
         if (example.getAuthorities() != null && !example.getAuthorities().isEmpty()) {
-            whereClauses.add("r in :ruoli ");
-            paramaterMap.put("ruoli", example.getAuthorities());
+            whereClauses.add("r in :authorities ");
+            paramaterMap.put("authorities", example.getAuthorities());
         }
 
         queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");

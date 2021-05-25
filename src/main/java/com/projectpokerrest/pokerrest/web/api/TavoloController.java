@@ -2,9 +2,9 @@ package com.projectpokerrest.pokerrest.web.api;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.User;
-import com.projectpokerrest.pokerrest.service.ruolo.RuoloService;
+import com.projectpokerrest.pokerrest.security.service.AuthorityService;
+import com.projectpokerrest.pokerrest.security.service.UserService;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
-import com.projectpokerrest.pokerrest.service.utente.UtenteService;
 import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
 import com.projectpokerrest.pokerrest.web.api.exception.UnouthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ public class TavoloController {
     private TavoloService tavoloService;
 
     @Autowired
-    private UtenteService utenteService;
+    private UserService utenteService;
 
     @Autowired
-    private RuoloService ruoloService;
+    private AuthorityService ruoloService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Tavolo>> getAll (@RequestHeader("authorization") String user) {
@@ -50,7 +50,7 @@ public class TavoloController {
     @PostMapping("/add")
     public ResponseEntity<Tavolo> add (@Valid @RequestBody Tavolo tavolo, @RequestHeader("authorization") String user) {
 
-        User userCreazioneDaAssegnare = utenteService.caricaUtenteEager(tavolo.getUtenteCreazione().getId());
+        User userCreazioneDaAssegnare = utenteService.caricaUserEager(tavolo.getUtenteCreazione().getId());
         tavolo.setUtenteCreazione(userCreazioneDaAssegnare);
         Tavolo tavoloInstance = tavoloService.inserisciNuovo(tavolo);
 

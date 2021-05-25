@@ -2,8 +2,8 @@ package com.projectpokerrest.pokerrest.web.api;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.User;
+import com.projectpokerrest.pokerrest.security.service.UserService;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
-import com.projectpokerrest.pokerrest.service.utente.UtenteService;
 import com.projectpokerrest.pokerrest.web.api.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.List;
 public class PartitaController {
 
     @Autowired
-    private UtenteService utenteService;
+    private UserService utenteService;
     @Autowired
     private TavoloService tavoloService;
 

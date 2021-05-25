@@ -35,7 +35,7 @@ public class AdminController {
 
 
 
-        User utente = utenteService.caricaUtenteEager(id);
+        User utente = utenteService.caricaUserEager(id);
         return new ResponseEntity<>(utente, HttpStatus.OK);
     }
 
@@ -52,7 +52,7 @@ public class AdminController {
     public ResponseEntity<User> update(@Valid @RequestBody User utente, @RequestHeader("authorization") String user, @PathVariable("id") Long id) {
 
 
-        User userDaModificare = utenteService.caricaUtenteEager(id);
+        User userDaModificare = utenteService.caricaUserEager(id);
         if (userDaModificare == null)
             throw new UtenteNotFoundException("Utente non trovato");
         utente.setId(id);
@@ -66,7 +66,7 @@ public class AdminController {
 
 
 
-        User utente = utenteService.disabilitaUtente(id);
+        User utente = utenteService.disabilitaUser(id);
         utenteService.aggiorna(utente);
         return new ResponseEntity<>(HttpStatus.OK);
     }
