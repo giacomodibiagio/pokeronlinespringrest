@@ -1,7 +1,7 @@
 package com.projectpokerrest.pokerrest.repository.utente;
 
 import com.projectpokerrest.pokerrest.model.StatoUtente;
-import com.projectpokerrest.pokerrest.model.Utente;
+import com.projectpokerrest.pokerrest.model.User;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -18,7 +18,7 @@ public class CustomUtenteRepositoryImpl implements CustomUtenteRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Utente> findByExample(Utente example) {
+    public List<User> findByExample(User example) {
     	Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
 
@@ -49,10 +49,7 @@ public class CustomUtenteRepositoryImpl implements CustomUtenteRepository {
 			whereClauses.add("u.creditoAccumulato >= :creditoAccumulato ");
 			paramaterMap.put("creditoAccumulato", example.getCreditoAccumulato());
 		}
-		if (example.getCreditoResiduo() != null) {
-			whereClauses.add("u.creditoResiduo >= :creditoResiduo ");
-			paramaterMap.put("creditoResiduo", example.getCreditoResiduo());
-		}
+
 		if (example.getEsperienzaAccumulata() != null) {
 			whereClauses.add("u.esperienzaAccumulata >= :esperienzaAccumulata ");
 			paramaterMap.put("esperienzaAccumulata", example.getEsperienzaAccumulata());
@@ -61,14 +58,14 @@ public class CustomUtenteRepositoryImpl implements CustomUtenteRepository {
 			whereClauses.add("u.stato = :stato ");
 			paramaterMap.put("stato", example.getStato());
 		}
-		if (example.getRuoli() != null && !example.getRuoli().isEmpty()) {
+		if (example.getAuthorities() != null && !example.getAuthorities().isEmpty()) {
 			whereClauses.add("r in :ruoli ");
-			paramaterMap.put("ruoli", example.getRuoli());
+			paramaterMap.put("ruoli", example.getAuthorities());
 		}
 
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));
-		TypedQuery<Utente> typedQuery = entityManager.createQuery(queryBuilder.toString(), Utente.class);
+		TypedQuery<User> typedQuery = entityManager.createQuery(queryBuilder.toString(), User.class);
 
 		for (String key : paramaterMap.keySet()) {
 			typedQuery.setParameter(key, paramaterMap.get(key));
@@ -78,9 +75,9 @@ public class CustomUtenteRepositoryImpl implements CustomUtenteRepository {
     }
 
 	@Override
-	public Utente disabilitaUtente(Utente utente) {
-		utente.setStato(StatoUtente.DISABILITATO);
-		return utente;
+	public User disabilitaUtente(User user) {
+		user.setStato(StatoUtente.DISABILITATO);
+		return user;
 	}
 
 }

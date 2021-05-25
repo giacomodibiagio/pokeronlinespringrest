@@ -1,13 +1,13 @@
 package com.projectpokerrest.pokerrest.repository.utente;
 
-import com.projectpokerrest.pokerrest.model.Utente;
+import com.projectpokerrest.pokerrest.model.User;
 
 import java.util.List;
 
 public interface CustomUtenteRepository {
 
-	List<Utente> findByExample(Utente example);
+	List<User> findByExample(User example);
 
-	public Utente disabilitaUtente(Utente utente);
+	public User disabilitaUtente(User user);
 	
 }

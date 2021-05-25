@@ -1,6 +1,7 @@
 package com.projectpokerrest.pokerrest.repository.tavolo;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
+import com.projectpokerrest.pokerrest.model.User;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -47,7 +48,7 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository{
         }
         if (example.getUtenti() != null && !example.getUtenti().isEmpty()) {
             whereClauses.add("c.id in :idList ");
-            paramaterMap.put("idList", example.getUtenti().stream().map(utenti -> utenti.getId()).collect(Collectors.toList()));
+            paramaterMap.put("idList", example.getUtenti().stream().map(User::getNome).collect(Collectors.toList()));
         }
 
         queryBuilder.append(!whereClauses.isEmpty()?" and ":"");

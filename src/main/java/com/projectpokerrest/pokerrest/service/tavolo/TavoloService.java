@@ -1,7 +1,7 @@
 package com.projectpokerrest.pokerrest.service.tavolo;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
-import com.projectpokerrest.pokerrest.model.Utente;
+import com.projectpokerrest.pokerrest.model.User;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface TavoloService {
 
     List<Tavolo> findByExample(Tavolo tavoloInstance);
 
-    List<Tavolo> findByUtenteCreazione(Utente utente);
+    List<Tavolo> findByUtenteCreazione(User user);
 
     Tavolo controllaTavoloPerUsernameUtenteCreazione(Long id, String username);
 

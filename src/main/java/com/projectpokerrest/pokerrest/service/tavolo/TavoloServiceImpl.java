@@ -1,7 +1,7 @@
 package com.projectpokerrest.pokerrest.service.tavolo;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
-import com.projectpokerrest.pokerrest.model.Utente;
+import com.projectpokerrest.pokerrest.model.User;
 import com.projectpokerrest.pokerrest.repository.tavolo.TavoloRepository;
 import com.projectpokerrest.pokerrest.repository.utente.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +65,8 @@ public class TavoloServiceImpl implements TavoloService {
     }
 
     @Override
-    public List<Tavolo> findByUtenteCreazione(Utente utente) {
-        return repository.findByUtenteCreazione(utente);
+    public List<Tavolo> findByUtenteCreazione(User user) {
+        return repository.findByUtenteCreazione(user);
     }
 
     @Override

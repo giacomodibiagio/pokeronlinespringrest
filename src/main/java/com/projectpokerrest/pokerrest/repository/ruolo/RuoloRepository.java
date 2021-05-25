@@ -1,10 +1,10 @@
 package com.projectpokerrest.pokerrest.repository.ruolo;
 
-import com.projectpokerrest.pokerrest.model.Ruolo;
+import com.projectpokerrest.pokerrest.model.Authority;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RuoloRepository extends CrudRepository<Ruolo, Long> {
+public interface RuoloRepository extends CrudRepository<Authority, Long> {
 
-	Ruolo findByDescrizioneAndCodice(String descrizione, String codice);
+	Authority findByDescrizioneAndCodice(String descrizione, String codice);
 	
 }

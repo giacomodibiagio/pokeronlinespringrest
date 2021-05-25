@@ -40,13 +40,13 @@ public class Tavolo {
 
     @JsonIgnoreProperties(value= {"tavolo"})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tavolo")
-    private Set<Utente> utenti = new HashSet<>();
+    private Set<User> utenti = new HashSet<>();
 
     @NotNull(message = "{utenteCreazione.notnull}")
     @JsonIgnoreProperties(value= {"tavolo"})
     @OneToOne
     @JoinColumn(name = "utente_id")
-    private Utente utenteCreazione;
+    private User userCreazione;
 
     public Tavolo() {
     }
@@ -98,20 +98,20 @@ public class Tavolo {
         this.dataCreazione = dataCreazione;
     }
 
-    public Set<Utente> getUtenti() {
+    public Set<User> getUtenti() {
         return utenti;
     }
 
-    public void setUtenti(Set<Utente> utenti) {
+    public void setUtenti(Set<User> utenti) {
         this.utenti = utenti;
     }
 
-    public Utente getUtenteCreazione() {
-        return utenteCreazione;
+    public User getUtenteCreazione() {
+        return userCreazione;
     }
 
-    public void setUtenteCreazione(Utente utenteCreazione) {
-        this.utenteCreazione = utenteCreazione;
+    public void setUtenteCreazione(User userCreazione) {
+        this.userCreazione = userCreazione;
     }
 
 }
