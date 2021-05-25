@@ -4,6 +4,7 @@ import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
 import com.projectpokerrest.pokerrest.repository.tavolo.TavoloRepository;
 import com.projectpokerrest.pokerrest.repository.utente.UtenteRepository;
+import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,9 @@ public class TavoloServiceImpl implements TavoloService {
 
     @Override
     public Tavolo aggiorna(Tavolo tavoloInstance) {
+        if(tavoloInstance == null){
+            throw new TavoloNotFoundException("Tavolo non trovato");
+        }
         return repository.save(tavoloInstance);
     }
 
@@ -53,6 +57,9 @@ public class TavoloServiceImpl implements TavoloService {
 
     @Override
     public void rimuovi(Tavolo tavoloInstance) throws Exception {
+        if(tavoloInstance == null){
+            throw new TavoloNotFoundException("Tavolo non trovato");
+        }
         if(!repository.findOneEager(tavoloInstance.getId()).getUtenti().isEmpty() && repository.findOneEager(tavoloInstance.getId()).getUtenteCreazione() != null){
             throw new Exception("Tavolo non eliminabile");
         }

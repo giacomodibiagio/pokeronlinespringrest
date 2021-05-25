@@ -2,17 +2,14 @@ package com.projectpokerrest.pokerrest.web.api;
 
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.Utente;
-import com.projectpokerrest.pokerrest.service.ruolo.RuoloService;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
 import com.projectpokerrest.pokerrest.service.utente.UtenteService;
 import com.projectpokerrest.pokerrest.web.api.exception.BusinessException;
-import com.projectpokerrest.pokerrest.web.api.exception.UnouthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
