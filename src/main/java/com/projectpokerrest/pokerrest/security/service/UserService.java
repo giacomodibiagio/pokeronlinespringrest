@@ -45,4 +45,5 @@ public interface UserService {
 	Tavolo trovaTavoloGiocatore(User UserInSessione);
 
 	List<Tavolo> cercaTavoliPerEsperienza(User UserInSessione);
+
 }

@@ -2,7 +2,6 @@ package com.projectpokerrest.pokerrest.security.repository;
 
  import com.projectpokerrest.pokerrest.model.StatoUtente;
  import com.projectpokerrest.pokerrest.model.User;
- import com.projectpokerrest.pokerrest.repository.utente.CustomUtenteRepository;
  import org.springframework.data.jpa.repository.EntityGraph;
  import org.springframework.data.jpa.repository.JpaRepository;
  import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,8 @@ package com.projectpokerrest.pokerrest.security.repository;
  import java.util.List;
  import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long>, CustomUtenteRepository {
+
+public interface UserRepository extends JpaRepository<User, Long>, CustomUserRepository {
 	Optional<User> findByUsername(String username);
 
     User findByUsernameAndPassword(String username, String password);

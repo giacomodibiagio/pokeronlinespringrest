@@ -1,7 +1,7 @@
 package com.projectpokerrest.pokerrest.security.jwt.dto;
 
-import com.example.automobile_rest.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projectpokerrest.pokerrest.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

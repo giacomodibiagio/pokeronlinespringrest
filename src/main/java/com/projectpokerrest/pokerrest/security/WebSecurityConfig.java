@@ -1,8 +1,8 @@
 package com.projectpokerrest.pokerrest.security;
 
 
-import com.example.automobile_rest.security.jwt.JwtAuthenticationEntryPoint;
-import com.example.automobile_rest.security.jwt.JwtAuthenticationTokenFilter;
+import com.projectpokerrest.pokerrest.security.jwt.JwtAuthenticationEntryPoint;
+import com.projectpokerrest.pokerrest.security.jwt.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

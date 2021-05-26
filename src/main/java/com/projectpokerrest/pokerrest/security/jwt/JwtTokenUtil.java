@@ -1,6 +1,6 @@
 package com.projectpokerrest.pokerrest.security.jwt;
 
-import com.example.automobile_rest.security.jwt.dto.JwtUserDetailsImpl;
+import com.projectpokerrest.pokerrest.security.jwt.dto.JwtUserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,9 +4,13 @@ import com.projectpokerrest.pokerrest.model.StatoUtente;
 import com.projectpokerrest.pokerrest.model.Tavolo;
 import com.projectpokerrest.pokerrest.model.User;
 import com.projectpokerrest.pokerrest.repository.tavolo.TavoloRepository;
+import com.projectpokerrest.pokerrest.security.jwt.dto.JwtUserDetailsImpl;
 import com.projectpokerrest.pokerrest.security.repository.UserRepository;
 import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -15,7 +19,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -117,5 +121,13 @@ public class UserServiceImpl implements UserService {
 
         List<Tavolo> tavoli = tavoloRepository.findByEsperienzaMinLessThan(utenteInSessione.getEsperienzaAccumulata());
         return tavoli;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+
+        return JwtUserDetailsImpl.build(user);
     }
 }

@@ -1,7 +1,7 @@
 package com.projectpokerrest.pokerrest.security.jwt;
 
- import com.projectpokerrest.pokerrest.security.service.UserService;
-import org.slf4j.Logger;
+ import com.projectpokerrest.pokerrest.security.service.UserServiceImpl;
+ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	private JwtTokenUtil jwtUtils;
 	
 	@Autowired
-	private UserService userDetailsService;
+	private UserServiceImpl userDetailsService;
 
 	@Value("${jwt.header}")
 	private String tokenHeader;

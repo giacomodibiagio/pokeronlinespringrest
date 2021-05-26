@@ -73,10 +73,16 @@ public class User {
 
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "USERS_AUTHORITIES", joinColumns = {
-			@JoinColumn(name = "USER_USERNAME", referencedColumnName = "USERNAME") }, inverseJoinColumns = {
-			@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "USERS_AUTHORITIES", joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
+
+	public User(String username, String password, String nome, String cognome, Date dateCreated) {
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+	}
 
 	public User() {
 	}

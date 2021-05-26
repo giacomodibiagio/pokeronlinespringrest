@@ -6,7 +6,6 @@ import com.projectpokerrest.pokerrest.security.service.AuthorityService;
 import com.projectpokerrest.pokerrest.security.service.UserService;
 import com.projectpokerrest.pokerrest.service.tavolo.TavoloService;
 import com.projectpokerrest.pokerrest.web.api.exception.TavoloNotFoundException;
-import com.projectpokerrest.pokerrest.web.api.exception.UnouthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

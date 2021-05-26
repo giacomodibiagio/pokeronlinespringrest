@@ -27,5 +27,34 @@ public class Authority {
 	@JsonBackReference
 	private List<User> users;
 
+	public Authority() {
+	}
 
+	public Authority(AuthorityName name) {
+		this.name = name;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public AuthorityName getName() {
+		return name;
+	}
+
+	public void setName(AuthorityName name) {
+		this.name = name;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 }
