@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository repository;
     @Autowired
     private TavoloRepository tavoloRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> listAllUtenti() {
@@ -42,7 +45,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public User inserisciNuovo(User utenteInstance) {
+        utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
         return repository.save(utenteInstance);
     }
 

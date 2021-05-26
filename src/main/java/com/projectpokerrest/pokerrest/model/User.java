@@ -2,6 +2,7 @@ package com.projectpokerrest.pokerrest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.aspectj.bridge.Message;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -19,24 +20,22 @@ public class User {
 
 
 	@Column(name = "USERNAME", length = 50, unique = true)
-	@NotNull
+	@NotBlank(message = "{username.notblank}")
 	@Size(min = 4, max = 50)
 	private String username;
 
 
 	@NotBlank(message = "{password.notblank}")
 	@Column(name = "PASSWORD", length = 100)
-	@NotNull
 	@Size(min = 4, max = 100)
 	private String password;
 
-	@NotBlank
+	@NotBlank(message = "email.notblank")
 	@Size(max = 50)
 	@Email
 	private String email;
 
 	@Column(name = "ENABLED")
-	@NotNull
 	private Boolean enabled;
 
 	@NotBlank(message = "{nome.notblank}")
